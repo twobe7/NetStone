@@ -6,7 +6,7 @@ using NetStone.Definitions.Model.Character;
 using NetStone.Definitions.Model.CWLS;
 using NetStone.Definitions.Model.FreeCompany;
 using NetStone.Definitions.Model.Linkshell;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace NetStone.Definitions;
 
@@ -70,7 +70,7 @@ public class XivApiDefinitionsContainer : DefinitionsContainer
     private async Task<T> GetDefinition<T>(string path) where T : IDefinition
     {
         var json = await this.client.GetStringAsync(path);
-        var result = JsonConvert.DeserializeObject<T>(json);
+        var result = JsonSerializer.Deserialize<T>(json);
         return result == null ? throw new FormatException($"Could not parse definitions in {path}.") : result;
     }
 

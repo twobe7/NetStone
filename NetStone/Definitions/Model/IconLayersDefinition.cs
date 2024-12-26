@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model;
 
@@ -10,18 +10,18 @@ public class IconLayersDefinition : IDefinition
     /// <summary>
     /// Bottom layer
     /// </summary>
-    [JsonProperty("BOTTOM")]
+    [JsonPropertyName("BOTTOM")]
     public DefinitionsPack Bottom { get; set; }
 
     /// <summary>
     /// Middle layer
     /// </summary>
-    [JsonProperty("MIDDLE")]
+    [JsonPropertyName("MIDDLE")]
     public DefinitionsPack Middle { get; set; }
 
     /// <summary>
     /// Top layer
     /// </summary>
-    [JsonProperty("TOP")]
+    [JsonPropertyName("TOP")]
     public DefinitionsPack Top { get; set; }
 }

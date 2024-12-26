@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.CWLS;
 
@@ -10,12 +10,12 @@ public class CrossworldLinkshellDefinition : IDefinition
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
     
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("DC")]
+    [JsonPropertyName("DC")]
     public DefinitionsPack DataCenter { get; set; }
 }

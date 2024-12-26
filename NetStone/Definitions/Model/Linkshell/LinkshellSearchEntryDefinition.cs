@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.Linkshell;
 
@@ -10,20 +10,20 @@ public class LinkshellSearchEntryDefinition : PagedEntryDefinition
     /// <summary>
     /// ID
     /// </summary>
-    [JsonProperty("ID")] public DefinitionsPack Id { get; set; }
+    [JsonPropertyName("ID")] public DefinitionsPack Id { get; set; }
     
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")] public DefinitionsPack Name { get; set; }
+    [JsonPropertyName("NAME")] public DefinitionsPack Name { get; set; }
     
     /// <summary>
     /// Rank
     /// </summary>
-    [JsonProperty("SERVER")] public DefinitionsPack Server { get; set; }
+    [JsonPropertyName("SERVER")] public DefinitionsPack Server { get; set; }
     
     /// <summary>
     /// Rank Icon
     /// </summary>
-    [JsonProperty("ACTIVE_MEMBERS")] public DefinitionsPack ActiveMembers { get; set; }
+    [JsonPropertyName("ACTIVE_MEMBERS")] public DefinitionsPack ActiveMembers { get; set; }
 }

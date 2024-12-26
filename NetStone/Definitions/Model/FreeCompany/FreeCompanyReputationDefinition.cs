@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.FreeCompany;
 
@@ -10,19 +10,19 @@ public class FreeCompanyReputationEntryDefinition : IDefinition
     /// <summary>
     /// Name of the Grand Company
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 
     /// <summary>
     /// Progress to next rank
     /// </summary>
-    [JsonProperty("PROGRESS")]
+    [JsonPropertyName("PROGRESS")]
     public DefinitionsPack Progress { get; set; }
 
     /// <summary>
     /// Current Rank
     /// </summary>
-    [JsonProperty("RANK")]
+    [JsonPropertyName("RANK")]
     public DefinitionsPack Rank { get; set; }
 }
 
@@ -34,18 +34,18 @@ public class FreeCompanyReputationDefinition : IDefinition
     /// <summary>
     /// Maelstrom
     /// </summary>
-    [JsonProperty("MAELSTROM")]
+    [JsonPropertyName("MAELSTROM")]
     public FreeCompanyReputationEntryDefinition Maelstrom { get; set; }
 
     /// <summary>
     /// Order of the Twin Adder
     /// </summary>
-    [JsonProperty("ADDERS")]
+    [JsonPropertyName("ADDERS")]
     public FreeCompanyReputationEntryDefinition Adders { get; set; }
 
     /// <summary>
     /// Immortal Flames
     /// </summary>
-    [JsonProperty("FLAMES")]
+    [JsonPropertyName("FLAMES")]
     public FreeCompanyReputationEntryDefinition Flames { get; set; }
 }

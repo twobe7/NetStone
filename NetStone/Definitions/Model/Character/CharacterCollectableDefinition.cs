@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.Character;
 
@@ -22,7 +22,7 @@ public class CharacterMountDefinition : CharacterCollectableDefinition
     /// <summary>
     /// Node definition for mounts
     /// </summary>
-    [JsonProperty("MOUNTS")]
+    [JsonPropertyName("MOUNTS")]
     public CollectableNodeDefinition Mounts { get; set; }
 
     ///<inheritdoc />
@@ -37,7 +37,7 @@ public class CharacterMinionDefinition : CharacterCollectableDefinition
     /// <summary>
     /// Noe definition for minions
     /// </summary>
-    [JsonProperty("MINIONS")]
+    [JsonPropertyName("MINIONS")]
     public CollectableNodeDefinition Minions { get; set; }
 
     ///<inheritdoc />
@@ -52,12 +52,12 @@ public class CollectableNodeDefinition
     /// <summary>
     /// Root node of collectable entry
     /// </summary>
-    [JsonProperty("ROOT")]
+    [JsonPropertyName("ROOT")]
     public DefinitionsPack Root { get; set; }
 
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 }

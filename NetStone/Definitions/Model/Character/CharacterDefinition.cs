@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.Character;
 
@@ -8,11 +8,11 @@ namespace NetStone.Definitions.Model.Character;
 public class CharacterFreeCompany : ICharacterSocialGroupDefinition
 {
     ///<inheritdoc />
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 
     ///<inheritdoc />
-    [JsonProperty("ICON_LAYERS")]
+    [JsonPropertyName("ICON_LAYERS")]
     public IconLayersDefinition IconLayers { get; set; }
 }
 
@@ -22,11 +22,11 @@ public class CharacterFreeCompany : ICharacterSocialGroupDefinition
 public class CharacterPvPTeam : ICharacterSocialGroupDefinition
 {
     ///<inheritdoc />
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 
     ///<inheritdoc />
-    [JsonProperty("ICON_LAYERS")]
+    [JsonPropertyName("ICON_LAYERS")]
     public IconLayersDefinition IconLayers { get; set; }
 }
 
@@ -54,13 +54,13 @@ public class NameIconDefinition : IDefinition
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 
     /// <summary>
     /// Icon
     /// </summary>
-    [JsonProperty("ICON")]
+    [JsonPropertyName("ICON")]
     public DefinitionsPack Icon { get; set; }
 }
 
@@ -72,90 +72,90 @@ public class CharacterDefinition : IDefinition
     /// <summary>
     /// Currently active class/job
     /// </summary>
-    [JsonProperty("ACTIVE_CLASSJOB")]
+    [JsonPropertyName("ACTIVE_CLASSJOB")]
     public DefinitionsPack ActiveClassJob { get; set; }
 
     /// <summary>
     /// Level of current class/job
     /// </summary>
-    [JsonProperty("ACTIVE_CLASSJOB_LEVEL")]
+    [JsonPropertyName("ACTIVE_CLASSJOB_LEVEL")]
     public DefinitionsPack ActiveClassJobLevel { get; set; }
 
     /// <summary>
     /// Characters avatar picture
     /// </summary>
-    [JsonProperty("AVATAR")]
+    [JsonPropertyName("AVATAR")]
     public DefinitionsPack Avatar { get; set; }
 
     /// <summary>
     /// Players description for this character
     /// </summary>
-    [JsonProperty("BIO")]
+    [JsonPropertyName("BIO")]
     public DefinitionsPack Bio { get; set; }
 
     /// <summary>
     /// Free Company of this character
     /// </summary>
-    [JsonProperty("FREE_COMPANY")]
+    [JsonPropertyName("FREE_COMPANY")]
     public CharacterFreeCompany FreeCompany { get; set; }
 
     /// <summary>
     /// Grand company
     /// </summary>
-    [JsonProperty("GRAND_COMPANY")]
+    [JsonPropertyName("GRAND_COMPANY")]
     public DefinitionsPack GrandCompany { get; set; }
 
     /// <summary>
     /// Deity
     /// </summary>
-    [JsonProperty("GUARDIAN_DEITY")]
+    [JsonPropertyName("GUARDIAN_DEITY")]
     public NameIconDefinition GuardianDeity { get; set; }
 
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 
     /// <summary>
     /// Nameday (Birthday)
     /// </summary>
-    [JsonProperty("NAMEDAY")]
+    [JsonPropertyName("NAMEDAY")]
     public DefinitionsPack Nameday { get; set; }
 
     /// <summary>
     /// Image of full character
     /// </summary>
-    [JsonProperty("PORTRAIT")]
+    [JsonPropertyName("PORTRAIT")]
     public DefinitionsPack Portrait { get; set; }
 
     /// <summary>
     /// PvP Team
     /// </summary>
-    [JsonProperty("PVP_TEAM")]
+    [JsonPropertyName("PVP_TEAM")]
     public CharacterPvPTeam PvPTeam { get; set; }
 
     /// <summary>
     /// Race, Clan and Gender of the character
     /// </summary>
-    [JsonProperty("RACE_CLAN_GENDER")]
+    [JsonPropertyName("RACE_CLAN_GENDER")]
     public DefinitionsPack RaceClanGender { get; set; }
 
     /// <summary>
     /// Homeworld of the character
     /// </summary>
-    [JsonProperty("SERVER")]
+    [JsonPropertyName("SERVER")]
     public DefinitionsPack Server { get; set; }
 
     /// <summary>
     /// Title
     /// </summary>
-    [JsonProperty("TITLE")]
+    [JsonPropertyName("TITLE")]
     public DefinitionsPack Title { get; set; }
 
     /// <summary>
     /// City-State affiliation
     /// </summary>
-    [JsonProperty("TOWN")]
+    [JsonPropertyName("TOWN")]
     public NameIconDefinition Town { get; set; }
 }

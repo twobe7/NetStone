@@ -1,5 +1,5 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions;
 
@@ -11,13 +11,13 @@ public class DefinitionsPack
     /// <summary>
     /// Hold a CSS selector to get the relevant html node from the DOM
     /// </summary>
-    [JsonProperty("selector")]
+    [JsonPropertyName("selector")]
     public string Selector { get; set; }
 
     /// <summary>
     /// A perl regex to extract the relevant information from the inner text of the relevant node
     /// </summary>
-    [JsonProperty("regex")]
+    [JsonPropertyName("regex")]
     public string? PerlBasedRegex { get; set; }
 
     /// <summary>
@@ -26,11 +26,11 @@ public class DefinitionsPack
     public string? Regex => this.PerlBasedRegex?.Replace("(?P<", "(?<", StringComparison.InvariantCulture);
 
     //Never used
-    //[JsonProperty("or")] public string Description { get; set; }
+    //[JsonPropertyName("or")] public string Description { get; set; }
 
     /// <summary>
     /// HTML attribute that holds information. Only set if data is not in the inner text
     /// </summary>
-    [JsonProperty("attribute")]
+    [JsonPropertyName("attribute")]
     public string? Attribute { get; set; }
 }

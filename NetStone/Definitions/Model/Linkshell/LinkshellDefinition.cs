@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.Linkshell;
 
@@ -10,6 +10,6 @@ public class LinkshellDefinition : IDefinition
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 }

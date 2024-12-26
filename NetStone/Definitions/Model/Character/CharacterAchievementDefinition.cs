@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.Character;
 
@@ -10,19 +10,19 @@ public class CharacterAchievementDefinition : PagedDefinition<CharacterAchieveme
     /// <summary>
     /// Total number of achievements earned by this character
     /// </summary>
-    [JsonProperty("TOTAL_ACHIEVEMENTS")]
+    [JsonPropertyName("TOTAL_ACHIEVEMENTS")]
     public DefinitionsPack TotalAchievements { get; set; }
 
     /// <summary>
     /// Total achievement points earned by this character
     /// </summary>
-    [JsonProperty("ACHIEVEMENT_POINTS")]
+    [JsonPropertyName("ACHIEVEMENT_POINTS")]
     public DefinitionsPack AchievementPoints { get; set; }
 
     /// <summary>
     /// Full text displayed for this achievement
     /// </summary>
-    [JsonProperty("ACTIVITY_DESCRIPTION")]
+    [JsonPropertyName("ACTIVITY_DESCRIPTION")]
     public DefinitionsPack ActivityDescription { get; set; }
 }
 /// <summary>
@@ -33,18 +33,18 @@ public class CharacterAchievementEntryDefinition : PagedEntryDefinition
     /// <summary>
     /// Achievement name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 
     /// <summary>
     /// Id of this achievement
     /// </summary>
-    [JsonProperty("ID")]
+    [JsonPropertyName("ID")]
     public DefinitionsPack Id { get; set; }
 
     /// <summary>
     /// Time when this achievement was earned
     /// </summary>
-    [JsonProperty("TIME")]
+    [JsonPropertyName("TIME")]
     public DefinitionsPack Time { get; set; }
 }

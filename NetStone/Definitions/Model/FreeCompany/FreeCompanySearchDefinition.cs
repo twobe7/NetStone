@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.FreeCompany;
 
@@ -10,60 +10,60 @@ public class FreeCompanySearchEntryDefinition : PagedEntryDefinition
     /// <summary>
     /// Crest layers
     /// </summary>
-    [JsonProperty("CREST_LAYERS")]
+    [JsonPropertyName("CREST_LAYERS")]
     public IconLayersDefinition CrestLayers { get; set; }
 
     /// <summary>
     /// FC Id
     /// </summary>
-    [JsonProperty("ID")]
+    [JsonPropertyName("ID")]
     public DefinitionsPack Id { get; set; }
 
     /// <summary>
     /// Grand Company
     /// </summary>
-    [JsonProperty("GRAND_COMPANY")]
+    [JsonPropertyName("GRAND_COMPANY")]
     public DefinitionsPack GrandCompany { get; set; }
 
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 
     /// <summary>
     /// World
     /// </summary>
-    [JsonProperty("SERVER")]
+    [JsonPropertyName("SERVER")]
     public DefinitionsPack Server { get; set; }
 
     /// <summary>
     /// FC active status
     /// </summary>
-    [JsonProperty("ACTIVE")]
+    [JsonPropertyName("ACTIVE")]
     public DefinitionsPack Active { get; set; }
 
     /// <summary>
     /// Active member count
     /// </summary>
-    [JsonProperty("ACTIVE_MEMBERS")]
+    [JsonPropertyName("ACTIVE_MEMBERS")]
     public DefinitionsPack ActiveMembers { get; set; }
 
     /// <summary>
     /// Recruitment status
     /// </summary>
-    [JsonProperty("RECRUITMENT_OPEN")]
+    [JsonPropertyName("RECRUITMENT_OPEN")]
     public DefinitionsPack RecruitmentOpen { get; set; }
 
     /// <summary>
     /// Estate state
     /// </summary>
-    [JsonProperty("ESTATE_BUILT")]
+    [JsonPropertyName("ESTATE_BUILT")]
     public DefinitionsPack EstateBuilt { get; set; }
 
     /// <summary>
     /// Formation date
     /// </summary>
-    [JsonProperty("FORMED")]
+    [JsonPropertyName("FORMED")]
     public DefinitionsPack Formed { get; set; }
 }

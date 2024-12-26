@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model;
 
@@ -11,31 +10,31 @@ public class PagedDefinition<TEntry> : IDefinition where TEntry : PagedEntryDefi
     /// <summary>
     /// Root node
     /// </summary>
-    [JsonProperty("ROOT")]
+    [JsonPropertyName("ROOT")]
     public DefinitionsPack Root { get; set; }
 
     /// <summary>
     /// Definition for one entry
     /// </summary>
-    [JsonProperty("ENTRY")]
+    [JsonPropertyName("ENTRY")]
     public TEntry Entry { get; set; }
 
     /// <summary>
     /// Info about pages
     /// </summary>
-    [JsonProperty("PAGE_INFO")]
+    [JsonPropertyName("PAGE_INFO")]
     public DefinitionsPack PageInfo { get; set; }
 
     /// <summary>
     /// Button for next page
     /// </summary>
-    [JsonProperty("LIST_NEXT_BUTTON")]
+    [JsonPropertyName("LIST_NEXT_BUTTON")]
     public DefinitionsPack ListNextButton { get; set; }
 
     /// <summary>
     /// DEfinition for node for empty results
     /// </summary>
-    [JsonProperty("NO_RESULTS_FOUND")]
+    [JsonPropertyName("NO_RESULTS_FOUND")]
     public DefinitionsPack? NoResultsFound { get; set; }
 }
 
@@ -47,6 +46,6 @@ public class PagedEntryDefinition
     /// <summary>
     /// Root node of entry
     /// </summary>
-    [JsonProperty("ROOT")]
+    [JsonPropertyName("ROOT")]
     public DefinitionsPack Root { get; set; }
 }

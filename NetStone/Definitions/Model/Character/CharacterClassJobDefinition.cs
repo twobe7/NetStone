@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.Character;
 
@@ -10,19 +10,19 @@ public class ClassJobBozjaDefinition
     /// <summary>
     /// Level
     /// </summary>
-    [JsonProperty("LEVEL")]
+    [JsonPropertyName("LEVEL")]
     public DefinitionsPack LEVEL { get; set; }
 
     /// <summary>
     /// Mettle
     /// </summary>
-    [JsonProperty("METTLE")]
+    [JsonPropertyName("METTLE")]
     public DefinitionsPack METTLE { get; set; }
 
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack NAME { get; set; }
 }
 
@@ -34,19 +34,19 @@ public class ClassJobEurekaDefinition
     /// <summary>
     /// Experience
     /// </summary>
-    [JsonProperty("EXP")]
+    [JsonPropertyName("EXP")]
     public DefinitionsPack Exp { get; set; }
 
     /// <summary>
     /// Level
     /// </summary>
-    [JsonProperty("LEVEL")]
+    [JsonPropertyName("LEVEL")]
     public DefinitionsPack Level { get; set; }
 
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack Name { get; set; }
 }
 
@@ -58,19 +58,19 @@ public class ClassJobEntryDefinition
     /// <summary>
     /// Level
     /// </summary>
-    [JsonProperty("LEVEL")]
+    [JsonPropertyName("LEVEL")]
     public DefinitionsPack Level { get; set; }
 
     /// <summary>
     /// Indicates of the job is Unlocked
     /// </summary>
-    [JsonProperty("UNLOCKSTATE")]
+    [JsonPropertyName("UNLOCKSTATE")]
     public DefinitionsPack UnlockState { get; set; }
 
     /// <summary>
     /// Experience
     /// </summary>
-    [JsonProperty("EXP")]
+    [JsonPropertyName("EXP")]
     public DefinitionsPack Exp { get; set; }
 }
 
@@ -82,210 +82,210 @@ public class CharacterClassJobDefinition : IDefinition
     /// <summary>
     /// Bozja job
     /// </summary>
-    [JsonProperty("BOZJA")]
+    [JsonPropertyName("BOZJA")]
     public ClassJobBozjaDefinition Bozja { get; set; }
 
     /// <summary>
     /// Eureka
     /// </summary>
-    [JsonProperty("EUREKA")]
+    [JsonPropertyName("EUREKA")]
     public ClassJobEurekaDefinition Eureka { get; set; }
 
     /// <summary>
     /// Paladin (includes Gladiator)
     /// </summary>
-    [JsonProperty("PALADIN")]
+    [JsonPropertyName("PALADIN")]
     public ClassJobEntryDefinition Paladin { get; set; }
 
     /// <summary>
     /// Warrior (includes Marauder)
     /// </summary>
-    [JsonProperty("WARRIOR")]
+    [JsonPropertyName("WARRIOR")]
     public ClassJobEntryDefinition Warrior { get; set; }
 
     /// <summary>
     /// Dark Knight
     /// </summary>
-    [JsonProperty("DARKKNIGHT")]
+    [JsonPropertyName("DARKKNIGHT")]
     public ClassJobEntryDefinition DarkKnight { get; set; }
 
     /// <summary>
     /// Gunbreaker
     /// </summary>
-    [JsonProperty("GUNBREAKER")]
+    [JsonPropertyName("GUNBREAKER")]
     public ClassJobEntryDefinition Gunbreaker { get; set; }
 
     /// <summary>
     /// Monk (includes Pugilist)
     /// </summary>
-    [JsonProperty("MONK")]
+    [JsonPropertyName("MONK")]
     public ClassJobEntryDefinition Monk { get; set; }
 
     /// <summary>
     /// Dragoon (include Lancer)
     /// </summary>
-    [JsonProperty("DRAGOON")]
+    [JsonPropertyName("DRAGOON")]
     public ClassJobEntryDefinition Dragoon { get; set; }
 
     /// <summary>
     /// Ninja (includes Rogue)
     /// </summary>
-    [JsonProperty("NINJA")]
+    [JsonPropertyName("NINJA")]
     public ClassJobEntryDefinition Ninja { get; set; }
 
     /// <summary>
     /// Samurai
     /// </summary>
-    [JsonProperty("SAMURAI")]
+    [JsonPropertyName("SAMURAI")]
     public ClassJobEntryDefinition Samurai { get; set; }
 
     /// <summary>
     /// Reaper
     /// </summary>
-    [JsonProperty("REAPER")]
+    [JsonPropertyName("REAPER")]
     public ClassJobEntryDefinition Reaper { get; set; }
     
     /// <summary>
     /// Viper
     /// </summary>
-    [JsonProperty("VIPER")]
+    [JsonPropertyName("VIPER")]
     public ClassJobEntryDefinition Viper { get; set; }
 
     /// <summary>
     /// White Mage (includes Conjurer)
     /// </summary>
-    [JsonProperty("WHITEMAGE")]
+    [JsonPropertyName("WHITEMAGE")]
     public ClassJobEntryDefinition Whitemage { get; set; }
 
     /// <summary>
     /// Scholar
     /// </summary>
-    [JsonProperty("SCHOLAR")]
+    [JsonPropertyName("SCHOLAR")]
     public ClassJobEntryDefinition Scholar { get; set; }
 
     /// <summary>
     /// Astrologian
     /// </summary>
-    [JsonProperty("ASTROLOGIAN")]
+    [JsonPropertyName("ASTROLOGIAN")]
     public ClassJobEntryDefinition Astrologian { get; set; }
 
     /// <summary>
     /// Sage
     /// </summary>
-    [JsonProperty("SAGE")]
+    [JsonPropertyName("SAGE")]
     public ClassJobEntryDefinition Sage { get; set; }
 
     /// <summary>
     /// Bard
     /// </summary>
-    [JsonProperty("BARD")]
+    [JsonPropertyName("BARD")]
     public ClassJobEntryDefinition Bard { get; set; }
 
     /// <summary>
     /// Machinist
     /// </summary>
-    [JsonProperty("MACHINIST")]
+    [JsonPropertyName("MACHINIST")]
     public ClassJobEntryDefinition Machinist { get; set; }
 
     /// <summary>
     /// Dancer
     /// </summary>
-    [JsonProperty("DANCER")]
+    [JsonPropertyName("DANCER")]
     public ClassJobEntryDefinition Dancer { get; set; }
 
     /// <summary>
     /// Black Mage
     /// </summary>
-    [JsonProperty("BLACKMAGE")]
+    [JsonPropertyName("BLACKMAGE")]
     public ClassJobEntryDefinition Blackmage { get; set; }
 
     /// <summary>
     /// Summoner
     /// </summary>
-    [JsonProperty("SUMMONER")]
+    [JsonPropertyName("SUMMONER")]
     public ClassJobEntryDefinition Summoner { get; set; }
 
     /// <summary>
     /// Red Mage
     /// </summary>
-    [JsonProperty("REDMAGE")]
+    [JsonPropertyName("REDMAGE")]
     public ClassJobEntryDefinition Redmage { get; set; }
     
     /// <summary>
     /// Pictomancer
     /// </summary>
-    [JsonProperty("PICTOMANCER")]
+    [JsonPropertyName("PICTOMANCER")]
     public ClassJobEntryDefinition Pictomancer { get; set; }
 
     /// <summary>
     /// Blue Mage
     /// </summary>
-    [JsonProperty("BLUEMAGE")]
+    [JsonPropertyName("BLUEMAGE")]
     public ClassJobEntryDefinition Bluemage { get; set; }
 
     /// <summary>
     /// Carpenter
     /// </summary>
-    [JsonProperty("CARPENTER")]
+    [JsonPropertyName("CARPENTER")]
     public ClassJobEntryDefinition Carpenter { get; set; }
 
     /// <summary>
     /// Blacksmith
     /// </summary>
-    [JsonProperty("BLACKSMITH")]
+    [JsonPropertyName("BLACKSMITH")]
     public ClassJobEntryDefinition Blacksmith { get; set; }
 
     /// <summary>
     /// Armorer
     /// </summary>
-    [JsonProperty("ARMORER")]
+    [JsonPropertyName("ARMORER")]
     public ClassJobEntryDefinition Armorer { get; set; }
 
     /// <summary>
     /// Goldsmith
     /// </summary>
-    [JsonProperty("GOLDSMITH")]
+    [JsonPropertyName("GOLDSMITH")]
     public ClassJobEntryDefinition Goldsmith { get; set; }
 
     /// <summary>
     /// Leatherworker
     /// </summary>
-    [JsonProperty("LEATHERWORKER")]
+    [JsonPropertyName("LEATHERWORKER")]
     public ClassJobEntryDefinition Leatherworker { get; set; }
 
     /// <summary>
     /// Weaver
     /// </summary>
-    [JsonProperty("WEAVER")]
+    [JsonPropertyName("WEAVER")]
     public ClassJobEntryDefinition Weaver { get; set; }
 
     /// <summary>
     /// Alchemist
     /// </summary>
-    [JsonProperty("ALCHEMIST")]
+    [JsonPropertyName("ALCHEMIST")]
     public ClassJobEntryDefinition Alchemist { get; set; }
 
     /// <summary>
     /// Culinarian
     /// </summary>
-    [JsonProperty("CULINARIAN")]
+    [JsonPropertyName("CULINARIAN")]
     public ClassJobEntryDefinition Culinarian { get; set; }
 
     /// <summary>
     /// Miner
     /// </summary>
-    [JsonProperty("MINER")]
+    [JsonPropertyName("MINER")]
     public ClassJobEntryDefinition Miner { get; set; }
 
     /// <summary>
     ///Botanist
     /// </summary>
-    [JsonProperty("BOTANIST")]
+    [JsonPropertyName("BOTANIST")]
     public ClassJobEntryDefinition Botanist { get; set; }
 
     /// <summary>
     /// Fisher
     /// </summary>
-    [JsonProperty("FISHER")]
+    [JsonPropertyName("FISHER")]
     public ClassJobEntryDefinition Fisher { get; set; }
 }

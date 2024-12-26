@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.FreeCompany;
 
@@ -11,19 +11,19 @@ public class FreeCompanyFocusEntryDefinition : IDefinition
     /// <summary>
     /// Name of type
     /// </summary>
-    [JsonProperty("NAME")]
+    [JsonPropertyName("NAME")]
     public DefinitionsPack NAME { get; set; }
 
     /// <summary>
     /// Icon for type
     /// </summary>
-    [JsonProperty("ICON")]
+    [JsonPropertyName("ICON")]
     public DefinitionsPack ICON { get; set; }
 
     /// <summary>
     /// Status (if company focuses on this)
     /// </summary>
-    [JsonProperty("STATUS")]
+    [JsonPropertyName("STATUS")]
     public DefinitionsPack STATUS { get; set; }
 }
 
@@ -35,60 +35,60 @@ public class FreeCompanyFocusDefinition : IDefinition
     /// <summary>
     /// No focus specified
     /// </summary>
-    [JsonProperty("NOT_SPECIFIED")]
+    [JsonPropertyName("NOT_SPECIFIED")]
     public DefinitionsPack NOTSPECIFIED { get; set; }
 
     /// <summary>
     /// Role play
     /// </summary>
-    [JsonProperty("RP")]
+    [JsonPropertyName("RP")]
     public FreeCompanyFocusEntryDefinition RolePlay { get; set; }
 
     /// <summary>
     /// Leveling
     /// </summary>
-    [JsonProperty("LEVELING")]
+    [JsonPropertyName("LEVELING")]
     public FreeCompanyFocusEntryDefinition Leveling { get; set; }
 
     /// <summary>
     /// Casual
     /// </summary>
-    [JsonProperty("CASUAL")]
+    [JsonPropertyName("CASUAL")]
     public FreeCompanyFocusEntryDefinition Casual { get; set; }
 
     /// <summary>
     /// Hardcore
     /// </summary>
-    [JsonProperty("HARDCORE")]
+    [JsonPropertyName("HARDCORE")]
     public FreeCompanyFocusEntryDefinition Hardcore { get; set; }
 
     /// <summary>
     /// Dungeons
     /// </summary>
-    [JsonProperty("DUNGEONS")]
+    [JsonPropertyName("DUNGEONS")]
     public FreeCompanyFocusEntryDefinition Dungeons { get; set; }
 
     /// <summary>
     /// Guild hests
     /// </summary>
-    [JsonProperty("GUILDHESTS")]
+    [JsonPropertyName("GUILDHESTS")]
     public FreeCompanyFocusEntryDefinition Guildhests { get; set; }
 
     /// <summary>
     /// Trials
     /// </summary>
-    [JsonProperty("TRIALS")]
+    [JsonPropertyName("TRIALS")]
     public FreeCompanyFocusEntryDefinition Trials { get; set; }
 
     /// <summary>
     /// Raids
     /// </summary>
-    [JsonProperty("RAIDS")]
+    [JsonPropertyName("RAIDS")]
     public FreeCompanyFocusEntryDefinition Raids { get; set; }
 
     /// <summary>
     /// PvP
     /// </summary>
-    [JsonProperty("PVP")]
+    [JsonPropertyName("PVP")]
     public FreeCompanyFocusEntryDefinition PvP { get; set; }
 }

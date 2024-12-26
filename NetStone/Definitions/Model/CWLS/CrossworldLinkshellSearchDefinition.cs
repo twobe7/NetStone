@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace NetStone.Definitions.Model.CWLS;
 /// <summary>
@@ -9,20 +9,20 @@ public class CrossworldLinkshellSearchEntryDefinition : PagedEntryDefinition
     /// <summary>
     /// ID
     /// </summary>
-    [JsonProperty("ID")] public DefinitionsPack Id { get; set; }
+    [JsonPropertyName("ID")] public DefinitionsPack Id { get; set; }
     
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("NAME")] public DefinitionsPack Name { get; set; }
+    [JsonPropertyName("NAME")] public DefinitionsPack Name { get; set; }
     
     /// <summary>
     /// Rank
     /// </summary>
-    [JsonProperty("DC")] public DefinitionsPack Dc { get; set; }
+    [JsonPropertyName("DC")] public DefinitionsPack Dc { get; set; }
     
     /// <summary>
     /// Rank Icon
     /// </summary>
-    [JsonProperty("ACTIVE_MEMBERS")] public DefinitionsPack ActiveMembers { get; set; }
+    [JsonPropertyName("ACTIVE_MEMBERS")] public DefinitionsPack ActiveMembers { get; set; }
 }
