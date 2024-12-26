@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-
+    <TargetFramework>net9.0</TargetFramework>
     <PackageId>NetStone</PackageId>
     <PackageVersion>1.3.1</PackageVersion>
     <FileVersion>1.3.3</FileVersion>
@@ -10,34 +8,26 @@
     <Authors>goaaats, Koenari</Authors>
     <PackageProjectUrl>https://github.com/xivapi/NetStone</PackageProjectUrl>
     <RepositoryUrl>https://github.com/xivapi/NetStone</RepositoryUrl>
-
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="../LICENSE" Pack="true" PackagePath="\" />
     <None Include="../README.md" Pack="true" PackagePath="\" />
     <None Include="Changelog.md" Pack="true" PackagePath="\" />
   </ItemGroup>
-
   <PropertyGroup>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <DocumentationFile>NetStone.xml</DocumentationFile>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
     <PackageReference Include="Karashiiro.HtmlAgilityPack.CssSelectors.NetCoreFork" Version="0.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-  
 </Project>
