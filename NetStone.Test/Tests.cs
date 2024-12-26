@@ -16,7 +16,7 @@ namespace NetStone.Test;
 public class Tests
 {
     private LodestoneClient lodestone;
-    
+
     private const string TestCharacterIdFull = "24471319";
     private const string TestCharacterIdEureka = "14556736";
     private const string TestLinkshell = "18577348462979918";
@@ -39,10 +39,13 @@ public class Tests
     [Test]
     public void CheckDefinitions()
     {
-        Assert.IsNotNull(this.lodestone.Definitions.Character);
-        Assert.IsNotNull(this.lodestone.Definitions.ClassJob);
-        Assert.IsNotNull(this.lodestone.Definitions.Gear);
-        Assert.IsNotNull(this.lodestone.Definitions.Achievement);
+        Assert.Multiple(() =>
+        {
+            Assert.That(this.lodestone.Definitions.Character, Is.Not.Null);
+            Assert.That(this.lodestone.Definitions.ClassJob, Is.Not.Null);
+            Assert.That(this.lodestone.Definitions.Gear, Is.Not.Null);
+            Assert.That(this.lodestone.Definitions.Achievement, Is.Not.Null);
+        });
     }
 
     [Test]
@@ -60,16 +63,20 @@ public class Tests
         };
 
         var page = await this.lodestone.SearchCharacter(query);
-        Assert.NotNull(page);
-        Assert.GreaterOrEqual(page.NumPages, 4);
-        Assert.AreEqual(1, page.CurrentPage);
+
+        Assert.That(page, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(page.NumPages, Is.GreaterThanOrEqualTo(4));
+            Assert.That(page.CurrentPage, Is.EqualTo(1));
+        });
 
         var cResults = 0;
         var cPages = 1;
 
         do
         {
-            Assert.AreEqual(cPages, page.CurrentPage);
+            Assert.That(page.CurrentPage, Is.EqualTo(cPages));
 
             foreach (var searchResult in page.Results)
             {
@@ -88,76 +95,85 @@ public class Tests
     public async Task CheckFreeCompany()
     {
         var fc = await this.lodestone.GetFreeCompany(TestFreeCompany);
-        Assert.NotNull(fc);
-        Assert.AreEqual("Maelstrom", fc.GrandCompany);
-        Assert.AreEqual("Hell On Aura", fc.Name);
-        Assert.AreEqual("«Fury»", fc.Tag);
-        Assert.AreEqual("I EAT BABIES FOR BREAKFAST - KAIVE", fc.Slogan);
-        Assert.AreEqual(new DateTime(2019, 01, 14, 04, 22, 05), fc.Formed);
-        Assert.GreaterOrEqual(fc.ActiveMemberCount, 35);
-        Assert.AreEqual(30, fc.Rank);
+
+        Assert.That(fc, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(fc.GrandCompany, Is.EqualTo("Maelstrom"));
+            Assert.That(fc.Name, Is.EqualTo("Hell On Aura"));
+            Assert.That(fc.Tag, Is.EqualTo("«Fury»"));
+            Assert.That(fc.Slogan, Is.EqualTo("I EAT BABIES FOR BREAKFAST - KAIVE"));
+            Assert.That(fc.Formed, Is.EqualTo(new DateTime(2019, 01, 14, 04, 22, 05)));
+            Assert.That(fc.ActiveMemberCount, Is.GreaterThanOrEqualTo(35));
+            Assert.That(fc.Rank, Is.EqualTo(30));
+            Assert.That(fc.ActiveState, Is.EqualTo("Always"));
+            Assert.That(fc.Recruitment, Is.EqualTo("Open"));
+        });
 
         //Reputation
-        Assert.NotNull(fc.Reputation);
+        Assert.That(fc.Reputation, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(fc.Reputation.Maelstrom.Name, Is.EqualTo("Maelstrom"));
+            Assert.That(fc.Reputation.Maelstrom.Rank, Is.EqualTo("Allied"));
+            Assert.That(fc.Reputation.Maelstrom.Progress, Is.EqualTo(100));
 
-        Assert.AreEqual("Maelstrom", fc.Reputation.Maelstrom.Name);
-        Assert.AreEqual("Allied", fc.Reputation.Maelstrom.Rank);
-        Assert.AreEqual(100, fc.Reputation.Maelstrom.Progress);
+            Assert.That(fc.Reputation.Adders.Name, Is.EqualTo("Order of the Twin Adder"));
+            Assert.That(fc.Reputation.Adders.Rank, Is.EqualTo("Neutral"));
+            Assert.That(fc.Reputation.Adders.Progress, Is.EqualTo(0));
 
-        Assert.AreEqual("Order of the Twin Adder", fc.Reputation.Adders.Name);
-        Assert.AreEqual("Neutral", fc.Reputation.Adders.Rank);
-        Assert.AreEqual(0, fc.Reputation.Adders.Progress);
-
-        Assert.AreEqual("Immortal Flames", fc.Reputation.Flames.Name);
-        Assert.AreEqual("Neutral", fc.Reputation.Flames.Rank);
-        Assert.AreEqual(0, fc.Reputation.Flames.Progress);
-
+            Assert.That(fc.Reputation.Flames.Name, Is.EqualTo("Immortal Flames"));
+            Assert.That(fc.Reputation.Flames.Rank, Is.EqualTo("Neutral"));
+            Assert.That(fc.Reputation.Flames.Progress, Is.EqualTo(0));
+        });
 
         //Estate
-        Assert.NotNull(fc.Estate);
-        Assert.IsTrue(fc.Estate.Exists);
-        Assert.AreEqual("Aura's Kitchen Fire", fc.Estate.Name);
-        Assert.AreEqual("Plot 18, 17 Ward, Empyreum (Medium)", fc.Estate.Plot);
+        Assert.That(fc.Estate, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(fc.Estate.Exists);
+            Assert.That(fc.Estate.Name, Is.EqualTo("Aura's Kitchen Fire"));
+            Assert.That(fc.Estate.Plot, Is.EqualTo("Plot 18, 17 Ward, Empyreum (Medium)"));
+        });
 
         //Focus
         //todo: selector does not work
-        Assert.AreEqual("Always", fc.ActiveState);
-        Assert.AreEqual("Open", fc.Recruitment);
+        Assert.That(fc.Focus, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(fc.Focus.RolePlay.Name, Is.EqualTo("Role-playing"));
+            Assert.That(!fc.Focus.RolePlay.IsEnabled);
+            Assert.That(fc.Focus.RolePlay.Icon?.AbsoluteUri, Is.Not.Null);
 
-        Assert.IsNotNull(fc.Focus);
-        Assert.AreEqual("Role-playing", fc.Focus.RolePlay.Name);
-        Assert.IsFalse(fc.Focus.RolePlay.IsEnabled);
-        Assert.IsNotNull(fc.Focus.RolePlay.Icon?.AbsoluteUri);
+            Assert.That(fc.Focus.Leveling.Name, Is.EqualTo("Leveling"));
+            Assert.That(fc.Focus.Leveling.IsEnabled);
+            Assert.That(fc.Focus.Leveling.Icon?.AbsoluteUri, Is.Not.Null);
 
-        Assert.AreEqual("Leveling", fc.Focus.Leveling.Name);
-        Assert.IsTrue(fc.Focus.Leveling.IsEnabled);
-        Assert.IsNotNull(fc.Focus.Leveling.Icon?.AbsoluteUri);
+            Assert.That(fc.Focus.Casual.Name, Is.EqualTo("Casual"));
+            Assert.That(fc.Focus.Casual.IsEnabled);
 
-        Assert.AreEqual("Casual", fc.Focus.Casual.Name);
-        Assert.IsTrue(fc.Focus.Casual.IsEnabled);
+            Assert.That(fc.Focus.Hardcore.Name, Is.EqualTo("Hardcore"));
+            Assert.That(!fc.Focus.Hardcore.IsEnabled);
 
-        Assert.AreEqual("Hardcore", fc.Focus.Hardcore.Name);
-        Assert.IsFalse(fc.Focus.Hardcore.IsEnabled);
+            Assert.That(fc.Focus.Dungeons.Name, Is.EqualTo("Dungeons"));
+            Assert.That(fc.Focus.Dungeons.IsEnabled);
 
-        Assert.AreEqual("Dungeons", fc.Focus.Dungeons.Name);
-        Assert.IsTrue(fc.Focus.Dungeons.IsEnabled);
+            Assert.That(fc.Focus.Guildhests.Name, Is.EqualTo("Guildhests"));
+            Assert.That(!fc.Focus.Guildhests.IsEnabled);
 
-        Assert.AreEqual("Guildhests", fc.Focus.Guildhests.Name);
-        Assert.IsFalse(fc.Focus.Guildhests.IsEnabled);
+            Assert.That(fc.Focus.Trials.Name, Is.EqualTo("Trials"));
+            Assert.That(fc.Focus.Trials.IsEnabled);
 
-        Assert.AreEqual("Trials", fc.Focus.Trials.Name);
-        Assert.IsTrue(fc.Focus.Trials.IsEnabled);
+            Assert.That(fc.Focus.Raids.Name, Is.EqualTo("Raids"));
+            Assert.That(fc.Focus.Raids.IsEnabled);
 
-        Assert.AreEqual("Raids", fc.Focus.Raids.Name);
-        Assert.IsTrue(fc.Focus.Raids.IsEnabled);
-
-        Assert.AreEqual("PvP", fc.Focus.PvP.Name);
-        Assert.IsFalse(fc.Focus.PvP.IsEnabled);
-
+            Assert.That(fc.Focus.PvP.Name, Is.EqualTo("PvP"));
+            Assert.That(!fc.Focus.PvP.IsEnabled);
+        });
 
         //Members
         var members = await fc.GetMembers();
-        Assert.NotNull(members);
+        Assert.That(members, Is.Not.Null);
 
         do
         {
@@ -175,76 +191,85 @@ public class Tests
     public async Task CheckFreeCompanyRecruiting()
     {
         var fc = await this.lodestone.GetFreeCompany(TestFreeCompanyRecruiting);
-        Assert.NotNull(fc);
-        Assert.AreEqual("Immortal Flames", fc.GrandCompany);
-        Assert.AreEqual("Bedge Lords", fc.Name);
-        Assert.AreEqual("«BEDGE»", fc.Tag);
-        Assert.IsTrue(fc.Slogan.StartsWith("Friendly FC with"));
-        Assert.AreEqual(new DateTime(2022, 12, 04, 19, 47, 07), fc.Formed);
-        Assert.GreaterOrEqual(fc.ActiveMemberCount, 50);
-        Assert.AreEqual(30, fc.Rank);
+
+        Assert.That(fc, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(fc.GrandCompany, Is.EqualTo("Immortal Flames"));
+            Assert.That(fc.Name, Is.EqualTo("Bedge Lords"));
+            Assert.That(fc.Tag, Is.EqualTo("«BEDGE»"));
+            Assert.That(fc.Slogan, Does.StartWith("Friendly FC with"));
+            Assert.That(fc.Formed, Is.EqualTo(new DateTime(2022, 12, 04, 19, 47, 07)));
+            Assert.That(fc.ActiveMemberCount, Is.GreaterThanOrEqualTo(50));
+            Assert.That(fc.Rank, Is.EqualTo(30));
+            Assert.That(fc.ActiveState, Is.EqualTo("Always"));
+            Assert.That(fc.Recruitment, Is.EqualTo("Open"));
+        });
 
         //Reputation
-        Assert.NotNull(fc.Reputation);
+        Assert.That(fc.Reputation, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(fc.Reputation.Maelstrom.Name, Is.EqualTo("Maelstrom"));
+            //Assert.AreEqual("Neutral", fc.Reputation.Maelstrom.Rank);
+            Assert.That(fc.Reputation.Maelstrom.Progress, Is.EqualTo(0));
 
-        
-        Assert.AreEqual("Maelstrom", fc.Reputation.Maelstrom.Name);
-        //Assert.AreEqual("Neutral", fc.Reputation.Maelstrom.Rank);
-        Assert.AreEqual(0, fc.Reputation.Maelstrom.Progress);
+            Assert.That(fc.Reputation.Adders.Name, Is.EqualTo("Order of the Twin Adder"));
+            Assert.That(fc.Reputation.Adders.Rank, Is.EqualTo("Neutral"));
+            Assert.That(fc.Reputation.Adders.Progress, Is.EqualTo(0));
 
-        Assert.AreEqual("Order of the Twin Adder", fc.Reputation.Adders.Name);
-        Assert.AreEqual("Neutral", fc.Reputation.Adders.Rank);
-        Assert.AreEqual(0, fc.Reputation.Adders.Progress);
-
-        Assert.AreEqual("Immortal Flames", fc.Reputation.Flames.Name);
-        Assert.AreEqual("Allied", fc.Reputation.Flames.Rank);
-        Assert.AreEqual(100, fc.Reputation.Flames.Progress);
+            Assert.That(fc.Reputation.Flames.Name, Is.EqualTo("Immortal Flames"));
+            Assert.That(fc.Reputation.Flames.Rank, Is.EqualTo("Allied"));
+            Assert.That(fc.Reputation.Flames.Progress, Is.EqualTo(100));
+        });
 
 
         //Estate
-        Assert.NotNull(fc.Estate);
-        Assert.IsTrue(fc.Estate.Exists);
-        Assert.AreEqual("Bedge & Breakfast", fc.Estate.Name);
-        Assert.AreEqual("Plot 5, 11 Ward, The Goblet (Large)", fc.Estate.Plot);
+        Assert.That(fc.Estate, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(fc.Estate.Exists);
+            Assert.That(fc.Estate.Name, Is.EqualTo("Bedge & Breakfast"));
+            Assert.That(fc.Estate.Plot, Is.EqualTo("Plot 5, 11 Ward, The Goblet (Large)"));
+        });
 
         //Focus
-        Assert.AreEqual("Always", fc.ActiveState);
-        Assert.AreEqual("Open", fc.Recruitment);
+        Assert.That(fc.Focus, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(fc.Focus.RolePlay.Name, Is.EqualTo("Role-playing"));
+            Assert.That(fc.Focus.RolePlay.IsEnabled);
+            Assert.That(fc.Focus.RolePlay.Icon?.AbsoluteUri, Is.Not.Null);
 
-        Assert.IsNotNull(fc.Focus);
-        Assert.AreEqual("Role-playing", fc.Focus.RolePlay.Name);
-        Assert.IsTrue(fc.Focus.RolePlay.IsEnabled);
-        Assert.IsNotNull(fc.Focus.RolePlay.Icon?.AbsoluteUri);
+            Assert.That(fc.Focus.Leveling.Name, Is.EqualTo("Leveling"));
+            Assert.That(fc.Focus.Leveling.IsEnabled);
+            Assert.That(fc.Focus.Leveling.Icon?.AbsoluteUri, Is.Not.Null);
 
-        Assert.AreEqual("Leveling", fc.Focus.Leveling.Name);
-        Assert.IsTrue(fc.Focus.Leveling.IsEnabled);
-        Assert.IsNotNull(fc.Focus.Leveling.Icon?.AbsoluteUri);
+            Assert.That(fc.Focus.Casual.Name, Is.EqualTo("Casual"));
+            Assert.That(fc.Focus.Casual.IsEnabled);
 
-        Assert.AreEqual("Casual", fc.Focus.Casual.Name);
-        Assert.IsTrue(fc.Focus.Casual.IsEnabled);
+            Assert.That(fc.Focus.Hardcore.Name, Is.EqualTo("Hardcore"));
+            Assert.That(fc.Focus.Hardcore.IsEnabled);
 
-        Assert.AreEqual("Hardcore", fc.Focus.Hardcore.Name);
-        Assert.IsTrue(fc.Focus.Hardcore.IsEnabled);
+            Assert.That(fc.Focus.Dungeons.Name, Is.EqualTo("Dungeons"));
+            Assert.That(fc.Focus.Dungeons.IsEnabled);
 
-        Assert.AreEqual("Dungeons", fc.Focus.Dungeons.Name);
-        Assert.IsTrue(fc.Focus.Dungeons.IsEnabled);
+            Assert.That(fc.Focus.Guildhests.Name, Is.EqualTo("Guildhests"));
+            Assert.That(!fc.Focus.Guildhests.IsEnabled);
 
-        Assert.AreEqual("Guildhests", fc.Focus.Guildhests.Name);
-        Assert.IsFalse(fc.Focus.Guildhests.IsEnabled);
+            Assert.That(fc.Focus.Trials.Name, Is.EqualTo("Trials"));
+            Assert.That(fc.Focus.Trials.IsEnabled);
 
-        Assert.AreEqual("Trials", fc.Focus.Trials.Name);
-        Assert.IsTrue(fc.Focus.Trials.IsEnabled);
+            Assert.That(fc.Focus.Raids.Name, Is.EqualTo("Raids"));
+            Assert.That(fc.Focus.Raids.IsEnabled);
 
-        Assert.AreEqual("Raids", fc.Focus.Raids.Name);
-        Assert.IsTrue(fc.Focus.Raids.IsEnabled);
-
-        Assert.AreEqual("PvP", fc.Focus.PvP.Name);
-        Assert.IsTrue(fc.Focus.PvP.IsEnabled);
-
+            Assert.That(fc.Focus.PvP.Name, Is.EqualTo("PvP"));
+            Assert.That(fc.Focus.PvP.IsEnabled);
+        });
 
         //Members
         var members = await fc.GetMembers();
-        Assert.NotNull(members);
+        Assert.That(members, Is.Not.Null);
 
         do
         {
@@ -269,16 +294,20 @@ public class Tests
         };
 
         var page = await this.lodestone.SearchFreeCompany(query);
-        Assert.NotNull(page);
-        Assert.GreaterOrEqual(page.NumPages,1);
-        Assert.AreEqual(1, page.CurrentPage);
+
+        Assert.That(page, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(page.NumPages, Is.GreaterThanOrEqualTo(1));
+            Assert.That(page.CurrentPage, Is.EqualTo(1));
+        });
 
         var cResults = 0;
         var cPages = 1;
 
         do
         {
-            Assert.AreEqual(cPages, page.CurrentPage);
+            Assert.That(page.CurrentPage, Is.EqualTo(cPages));
 
             foreach (var searchResult in page.Results)
             {
@@ -297,140 +326,194 @@ public class Tests
     public async Task CheckCharacterDoH()
     {
         var chara = await this.lodestone.GetCharacter(TestCharacterIdDoH);
-        Assert.NotNull(chara);
-        var attribs = chara.Attributes;
-        Assert.AreEqual(39, attribs.Craftsmanship);
-        Assert.AreEqual(7, attribs.Control);
-        Assert.AreEqual(180, attribs.MpGpCp);
+        Assert.That(chara, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            var attribs = chara.Attributes;
+            Assert.That(attribs.Craftsmanship, Is.EqualTo(39));
+            Assert.That(attribs.Control, Is.EqualTo(7));
+            Assert.That(attribs.MpGpCp, Is.EqualTo(180));
+        });
     }
-    
+
     [Test]
     public async Task CheckCharacterBare()
     {
         var chara = await this.lodestone.GetCharacter(TestCharacterIdBare);
-        Assert.NotNull(chara);
+        Assert.That(chara, Is.Not.Null);
 
         var classJob = await chara.GetClassJobInfo();
-        Assert.NotNull(classJob);
-        Assert.NotNull(classJob.Warrior);
-        Assert.AreEqual(1, classJob.Warrior.Level);
-        Assert.False(classJob.Alchemist.IsUnlocked);
-        Assert.False(classJob.WhiteMage.IsUnlocked);
-        Assert.Null(await chara.GetMinions());
-        Assert.Null(await chara.GetMounts());
-        Assert.NotNull(chara.Gear);
-        Assert.Null(chara.Gear.Body);
-        Assert.NotNull(chara.Gear.Mainhand);
-        Assert.AreEqual(1, chara.ActiveClassJobLevel);
-        Assert.Null(chara.PvPTeam);
-        Assert.Null(chara.FreeCompany);
+
+        Assert.That(classJob, Is.Not.Null);
+        Assert.That(classJob.Warrior, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(classJob.Warrior.Level, Is.EqualTo(1));
+            Assert.That(!classJob.Alchemist.IsUnlocked);
+            Assert.That(!classJob.WhiteMage.IsUnlocked);
+            Assert.That(chara.ActiveClassJobLevel, Is.EqualTo(1));
+            Assert.That(chara.PvPTeam, Is.Null);
+            Assert.That(chara.FreeCompany, Is.Null);
+        });
+
+        Assert.That(chara.Gear, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(chara.Gear.Body, Is.Null);
+            Assert.That(chara.Gear.Mainhand, Is.Not.Null);
+        });
+
+        Assert.Multiple(async () =>
+        {
+            Assert.That(await chara.GetMinions(), Is.Null);
+            Assert.That(await chara.GetMounts(), Is.Null);
+        });
     }
 
     [Test]
     public async Task CheckCharacterEurekaBozja()
     {
         var chara = await this.lodestone.GetCharacter(TestCharacterIdEureka);
-        Assert.NotNull(chara);
+        Assert.That(chara, Is.Not.Null);
+
         var classJob = await chara.GetClassJobInfo();
-        Assert.NotNull(classJob);
-        
-        Assert.NotNull(classJob.Bozja);
-        Assert.IsTrue(classJob.Bozja.Exists);
-        Assert.AreEqual("Resistance Rank",classJob.Bozja.Name);
-        Assert.AreEqual(6,classJob.Bozja.Level);
-        Assert.AreEqual(13_443, classJob.Bozja.MettleCurrent);
-        Assert.AreEqual(18_000, classJob.Bozja.MettleMax);
-        
-        Assert.NotNull(classJob.Eureka);
-        Assert.IsTrue(classJob.Eureka.Exists);
-        Assert.AreEqual("Elemental Level",classJob.Eureka.Name);
-        Assert.AreEqual(1,classJob.Eureka.Level);
-        Assert.AreEqual(431, classJob.Eureka.ExpCurrent);
-        Assert.AreEqual(1_000, classJob.Eureka.ExpMax);
+        Assert.That(classJob, Is.Not.Null);
+
+        // Eureka
+        Assert.That(classJob.Eureka, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(classJob.Eureka.Exists);
+            Assert.That(classJob.Eureka.Name, Is.EqualTo("Elemental Level"));
+            Assert.That(classJob.Eureka.Level, Is.EqualTo(1));
+            Assert.That(classJob.Eureka.ExpCurrent, Is.EqualTo(431));
+            Assert.That(classJob.Eureka.ExpMax, Is.EqualTo(1_000));
+        });
+
+        // Bozja
+        Assert.That(classJob.Bozja, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(classJob.Bozja.Exists);
+            Assert.That(classJob.Bozja.Name, Is.EqualTo("Resistance Rank"));
+            Assert.That(classJob.Bozja.Level, Is.EqualTo(6));
+            Assert.That(classJob.Bozja.MettleCurrent, Is.EqualTo(13_443));
+            Assert.That(classJob.Bozja.MettleMax, Is.EqualTo(18_000));
+        });
     }
-    
+
     [Test]
     public async Task CheckCharacterFull()
     {
         var chara = await this.lodestone.GetCharacter(TestCharacterIdFull);
-        Assert.NotNull(chara);
+        Assert.That(chara, Is.Not.Null);
+
         //General data
-        Assert.AreEqual(chara.ToString(), "Elya Solais on Odin");
-        Assert.AreEqual(chara.Server, "Odin");
-        Assert.AreEqual(chara.Name, "Elya Solais");
-        Assert.AreEqual("Miqo'te",chara.Race);
-        Assert.AreEqual("Keeper of the Moon", chara.Tribe);
-        Assert.AreEqual(LodestoneCharacter.FemaleChar, chara.Gender);
-        Assert.AreEqual("-",chara.Bio);
-        Assert.AreEqual(chara.GuardianDeityName, "Menphina, the Lover");
-        Assert.AreEqual(chara.Nameday, "14th Sun of the 2nd Umbral Moon");
-        Assert.AreEqual("Sweet Dreamer",chara.Title);
-        Assert.AreEqual(chara.TownName, "Limsa Lominsa");
-        Assert.NotNull(chara.Avatar);
-        Assert.NotNull(chara.Portrait);
+        Assert.Multiple(() =>
+        {
+            Assert.That(chara.ToString(), Is.EqualTo("Elya Solais on Odin"));
+            Assert.That(chara.Server, Is.EqualTo("Odin"));
+            Assert.That(chara.Name, Is.EqualTo("Elya Solais"));
+            Assert.That(chara.Race, Is.EqualTo("Miqo'te"));
+            Assert.That(chara.Tribe, Is.EqualTo("Keeper of the Moon"));
+            Assert.That(chara.Gender, Is.EqualTo(LodestoneCharacter.FemaleChar));
+            Assert.That(chara.Bio, Is.EqualTo("-"));
+            Assert.That(chara.GuardianDeityName, Is.EqualTo("Menphina, the Lover"));
+            Assert.That(chara.Nameday, Is.EqualTo("14th Sun of the 2nd Umbral Moon"));
+            Assert.That(chara.Title, Is.EqualTo("Sweet Dreamer"));
+            Assert.That(chara.TownName, Is.EqualTo("Limsa Lominsa"));
+            Assert.That(chara.Avatar, Is.Not.Null);
+            Assert.That(chara.Portrait, Is.Not.Null);
+        });
 
         Console.WriteLine(chara.GuardianDeityIcon);
 
         //Free Company
-        Assert.NotNull(chara.FreeCompany);
-        Assert.AreEqual(chara.FreeCompany.Id, "9232660711086250960");
-        Assert.AreEqual(chara.FreeCompany.Name, "Corni Licentiae");
-        Assert.AreEqual(chara.FreeCompany.Link?.AbsoluteUri,
-            "https://eu.finalfantasyxiv.com/lodestone/freecompany/9232660711086250960/");
-        
+        Assert.That(chara.FreeCompany, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(chara.FreeCompany.Id, Is.EqualTo("9232660711086250960"));
+            Assert.That(chara.FreeCompany.Name, Is.EqualTo("Corni Licentiae"));
+            Assert.That(chara.FreeCompany.Link?.AbsoluteUri,
+                Is.EqualTo("https://eu.finalfantasyxiv.com/lodestone/freecompany/9232660711086250960/"));
+        });
+
         //Gear
         var gear = chara.Gear;
-        Assert.AreEqual("Mandervillous Wings", gear.Mainhand?.ItemName);
-        Assert.IsFalse(gear.Mainhand.IsHq);
-        Assert.AreEqual("Mandervillous Wings", gear.Mainhand.StrippedItemName);
-        
-        Assert.IsNotNull(gear.Mainhand.ItemDatabaseLink);
-        Assert.IsEmpty(gear.Mainhand.GlamourName);
-        Assert.IsEmpty(gear.Mainhand.Stain);
-        
-        Assert.IsNull(gear.Offhand);
 
-        Assert.AreEqual("Augmented Credendum Circlet of Healing", gear.Head?.ItemName);
-        Assert.AreEqual(660, gear.Head?.ItemLevel);
-        Assert.NotNull(gear.Head.ItemDatabaseLink);
-        Assert.AreEqual("The Emperor's New Hat",gear.Head.GlamourName);
-        Assert.NotNull(gear.Head.GlamourDatabaseLink);
-        Assert.AreEqual("Savage Aim Materia X",gear.Head.Materia[0]);
-        Assert.AreEqual("Heavens' Eye Materia X",gear.Head.Materia[1]);
-        
-        Assert.AreEqual("Ascension Robe of Healing", gear.Body?.ItemName);
-        Assert.AreEqual(660, gear.Body?.ItemLevel);
+        Assert.That(gear.Mainhand, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(gear.Mainhand.ItemName, Is.EqualTo("Mandervillous Wings"));
+            Assert.That(!gear.Mainhand.IsHq);
+            Assert.That(gear.Mainhand.StrippedItemName, Is.EqualTo("Mandervillous Wings"));
 
-        Assert.AreEqual("Augmented Credendum Gauntlets of Healing", gear.Hands?.ItemName);
-        Assert.AreEqual(660, gear.Hands?.ItemLevel);
+            Assert.That(gear.Mainhand.ItemDatabaseLink, Is.Not.Null);
+            Assert.That(gear.Mainhand.GlamourName, Is.Empty);
+            Assert.That(gear.Mainhand.Stain, Is.Empty);
+        });
 
-        Assert.AreEqual("Augmented Credendum Hose of Healing", gear.Legs?.ItemName);
-        Assert.AreEqual(660, gear.Legs?.ItemLevel);
+        Assert.Multiple(() =>
+        {
+            Assert.That(gear.Offhand, Is.Null);
+            Assert.That(gear.Head, Is.Not.Null);
+            Assert.That(gear.Body, Is.Not.Null);
+            Assert.That(gear.Hands, Is.Not.Null);
+            Assert.That(gear.Legs, Is.Not.Null);
+            Assert.That(gear.Feet, Is.Not.Null);
+            Assert.That(gear.Earrings, Is.Not.Null);
+            Assert.That(gear.Necklace, Is.Not.Null);
+            Assert.That(gear.Bracelets, Is.Not.Null);
+            Assert.That(gear.Ring1, Is.Not.Null);
+            Assert.That(gear.Ring2, Is.Not.Null);
+            Assert.That(gear.Soulcrystal, Is.Not.Null);
+        });
 
-        Assert.AreEqual("Ascension Sandals of Healing", gear.Feet?.ItemName);
-        Assert.AreEqual(660, gear.Feet?.ItemLevel);
+        Assert.Multiple(() =>
+        {
+            Assert.That(gear.Head.ItemName, Is.EqualTo("Augmented Credendum Circlet of Healing"));
+            Assert.That(gear.Head.ItemLevel, Is.EqualTo(660));
+            Assert.That(gear.Head.ItemDatabaseLink, Is.Not.Null);
+            Assert.That(gear.Head.GlamourName, Is.EqualTo("The Emperor's New Hat"));
+            Assert.That(gear.Head.GlamourDatabaseLink, Is.Not.Null);
+            Assert.That(gear.Head.Materia[0], Is.EqualTo("Savage Aim Materia X"));
+            Assert.That(gear.Head.Materia[1], Is.EqualTo("Heavens' Eye Materia X"));
 
-        Assert.AreEqual("Augmented Credendum Earrings of Healing", gear.Earrings?.ItemName);
-        Assert.AreEqual(660, gear.Earrings?.ItemLevel);
+            Assert.That(gear.Body.ItemName, Is.EqualTo("Ascension Robe of Healing"));
+            Assert.That(gear.Body.ItemLevel, Is.EqualTo(660));
 
-        Assert.AreEqual("Ascension Necklace of Healing", gear.Necklace?.ItemName);
-        Assert.AreEqual(660, gear.Necklace?.ItemLevel);
+            Assert.That(gear.Hands.ItemName, Is.EqualTo("Augmented Credendum Gauntlets of Healing"));
+            Assert.That(gear.Hands.ItemLevel, Is.EqualTo(660));
 
-        Assert.AreEqual("Ascension Bracelet of Healing", gear.Bracelets?.ItemName);
-        Assert.AreEqual(660, gear.Bracelets?.ItemLevel);
-        
-        Assert.AreEqual("Ascension Ring of Healing", gear.Ring1?.ItemName);
-        Assert.AreEqual(660, gear.Ring1?.ItemLevel);
-        Assert.IsFalse(gear.Ring1.IsHq);
-        
-        Assert.AreEqual("Augmented Credendum Ring of Healing", gear.Ring2?.ItemName);
-        Assert.AreEqual(660, gear.Ring2?.ItemLevel);
-        
-        Assert.AreEqual("Soul of the Sage", gear.Soulcrystal?.ItemName);
-        
+            Assert.That(gear.Legs.ItemName, Is.EqualTo("Augmented Credendum Hose of Healing"));
+            Assert.That(gear.Legs.ItemLevel, Is.EqualTo(660));
+
+            Assert.That(gear.Feet.ItemName, Is.EqualTo("Ascension Sandals of Healing"));
+            Assert.That(gear.Feet.ItemLevel, Is.EqualTo(660));
+
+            Assert.That(gear.Earrings.ItemName, Is.EqualTo("Augmented Credendum Earrings of Healing"));
+            Assert.That(gear.Earrings.ItemLevel, Is.EqualTo(660));
+
+            Assert.That(gear.Necklace.ItemName, Is.EqualTo("Ascension Necklace of Healing"));
+            Assert.That(gear.Necklace.ItemLevel, Is.EqualTo(660));
+
+            Assert.That(gear.Bracelets.ItemName, Is.EqualTo("Ascension Bracelet of Healing"));
+            Assert.That(gear.Bracelets.ItemLevel, Is.EqualTo(660));
+
+            Assert.That(gear.Ring1.ItemName, Is.EqualTo("Ascension Ring of Healing"));
+            Assert.That(gear.Ring1.ItemLevel, Is.EqualTo(660));
+
+            Assert.That(!gear.Ring1.IsHq);
+
+            Assert.That(gear.Ring2.ItemName, Is.EqualTo("Augmented Credendum Ring of Healing"));
+            Assert.That(gear.Ring2.ItemLevel, Is.EqualTo(660));
+
+            Assert.That(gear.Soulcrystal.ItemName, Is.EqualTo("Soul of the Sage"));
+        });
+
         //Classes/Jobs
         var classJob = await chara.GetClassJobInfo();
-        Assert.NotNull(classJob);
+        Assert.That(classJob, Is.Not.Null);
 
         foreach (var job in Enum.GetValues<ClassJob>().Where(job => job != ClassJob.None))
         {
@@ -438,65 +521,74 @@ public class Tests
             switch (job)
             {
                 case ClassJob.Culinarian:
-                    Assert.IsTrue(activeJob.IsSpecialized);
+                    Assert.That(activeJob.IsSpecialized);
                     break;
                 case ClassJob.Viper or ClassJob.Pictomancer:
-                    Assert.IsFalse(activeJob.IsUnlocked, $"{job}");
+                    Assert.That(!activeJob.IsUnlocked, $"{job}");
                     break;
                 case ClassJob.WhiteMage:
-                    Assert.IsTrue(activeJob.IsJobUnlocked);
+                    Assert.That(activeJob.IsJobUnlocked);
                     break;
                 case ClassJob.Samurai:
-                    Assert.IsTrue(activeJob.IsUnlocked);
-                    Assert.AreEqual(50,activeJob.Level);
-                    Assert.AreEqual(11_700,activeJob.ExpCurrent);
-                    Assert.AreEqual(421_000,activeJob.ExpMax);
+                    Assert.That(activeJob.IsUnlocked);
+                    Assert.That(activeJob.Level, Is.EqualTo(50));
+                    Assert.That(activeJob.ExpCurrent, Is.EqualTo(11_700));
+                    Assert.That(activeJob.ExpMax, Is.EqualTo(421_000));
                     break;
                 default:
-                    Assert.IsTrue(activeJob.IsUnlocked);
+                    Assert.That(activeJob.IsUnlocked);
                     break;
             }
         }
-        Assert.NotNull(classJob.Bozja);
-        Assert.AreEqual(19, classJob.Bozja.Level);
-        Assert.AreEqual(4_441_657, classJob.Bozja?.MettleCurrent);
-        Assert.AreEqual(6_163_000, classJob.Bozja?.MettleMax);
-        Assert.AreEqual(1_721_343,classJob.Bozja.MettleToGo);
-        Assert.AreEqual("Resistance Rank", classJob.Bozja.Name);
+        Assert.That(classJob.Bozja, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(classJob.Bozja.Level, Is.EqualTo(19));
+            Assert.That(classJob.Bozja?.MettleCurrent, Is.EqualTo(4_441_657));
+            Assert.That(classJob.Bozja?.MettleMax, Is.EqualTo(6_163_000));
+            Assert.That(classJob.Bozja.MettleToGo, Is.EqualTo(1_721_343));
+            Assert.That(classJob.Bozja.Name, Is.EqualTo("Resistance Rank"));
+        });
 
-        Assert.Null(classJob.Eureka);
-        
+        Assert.That(classJob.Eureka, Is.Null);
+
         //Attributes
         var attributes = chara.Attributes;
-        Assert.LessOrEqual(233, attributes.Strength);
-        Assert.LessOrEqual(392, attributes.Dexterity);
-        Assert.LessOrEqual(3319, attributes.Vitality);
-        Assert.LessOrEqual(449, attributes.Intelligence);
-        Assert.LessOrEqual(3379, attributes.Mind);
-        Assert.LessOrEqual(2397, attributes.CriticalHitRate);
-        Assert.LessOrEqual(2040, attributes.Determination);
-        Assert.LessOrEqual(904, attributes.DirectHitRate);
-        Assert.LessOrEqual(2032, attributes.Defense);
-        Assert.LessOrEqual(3551, attributes.MagicDefense);
-        Assert.LessOrEqual(233, attributes.AttackPower);
-        Assert.LessOrEqual(400, attributes.SkillSpeed);
-        Assert.LessOrEqual(3379, attributes.AttackMagicPotency);
-        Assert.LessOrEqual(3379, attributes.HealingMagicPotency);
-        Assert.LessOrEqual(676, attributes.SpellSpeed);
-        Assert.LessOrEqual(400, attributes.Tenacity);
-        Assert.LessOrEqual(535, attributes.Piety);
-        Assert.LessOrEqual(74324, attributes.Hp);
-        Assert.AreEqual(10000, attributes.MpGpCp);
-        Assert.AreEqual("MP", attributes.MpGpCpParameterName);
+        Assert.Multiple(() =>
+        {
+            Assert.That(attributes.Strength, Is.GreaterThanOrEqualTo(233));
+            Assert.That(attributes.Dexterity, Is.GreaterThanOrEqualTo(392));
+            Assert.That(attributes.Vitality, Is.GreaterThanOrEqualTo(3319));
+            Assert.That(attributes.Intelligence, Is.GreaterThanOrEqualTo(449));
+            Assert.That(attributes.Mind, Is.GreaterThanOrEqualTo(3379));
+            Assert.That(attributes.CriticalHitRate, Is.GreaterThanOrEqualTo(2397));
+            Assert.That(attributes.Determination, Is.GreaterThanOrEqualTo(2040));
+            Assert.That(attributes.DirectHitRate, Is.GreaterThanOrEqualTo(904));
+            Assert.That(attributes.Defense, Is.GreaterThanOrEqualTo(2032));
+            Assert.That(attributes.MagicDefense, Is.GreaterThanOrEqualTo(3551));
+            Assert.That(attributes.AttackPower, Is.GreaterThanOrEqualTo(233));
+            Assert.That(attributes.SkillSpeed, Is.GreaterThanOrEqualTo(400));
+            Assert.That(attributes.AttackMagicPotency, Is.GreaterThanOrEqualTo(3379));
+            Assert.That(attributes.HealingMagicPotency, Is.GreaterThanOrEqualTo(3379));
+            Assert.That(attributes.SpellSpeed, Is.GreaterThanOrEqualTo(676));
+            Assert.That(attributes.Tenacity, Is.GreaterThanOrEqualTo(400));
+            Assert.That(attributes.Piety, Is.GreaterThanOrEqualTo(535));
+            Assert.That(attributes.Hp, Is.GreaterThanOrEqualTo(74324));
+            Assert.That(attributes.MpGpCp, Is.EqualTo(10000));
+            Assert.That(attributes.MpGpCpParameterName, Is.EqualTo("MP"));
+        });
 
         //Achievements
-
         var achieve = await chara.GetAchievement();
-        Assert.NotNull(achieve);
-        Assert.AreEqual(7565,achieve.AchievementPoints);
-        Assert.GreaterOrEqual(achieve.TotalAchievements,898);
-        Assert.GreaterOrEqual(achieve.NumPages,8);
-        Assert.AreEqual(1, achieve.CurrentPage);
+        Assert.That(achieve, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(achieve.AchievementPoints, Is.EqualTo(7565));
+            Assert.That(achieve.TotalAchievements, Is.GreaterThanOrEqualTo(898));
+            Assert.That(achieve.NumPages, Is.GreaterThanOrEqualTo(8));
+            Assert.That(achieve.CurrentPage, Is.EqualTo(1));
+        });
+
         bool found655 = false;
         bool found3303 = false;
         var found1750 = false;
@@ -504,19 +596,19 @@ public class Tests
         {
             foreach (var achievement in achieve.Achievements)
             {
-                Assert.NotNull(achievement.Id);
+                Assert.That(achievement.Id, Is.Not.Null);
                 switch (achievement.Id)
                 {
                     case 655:
-                        Assert.AreEqual("Mapping the Realm: Southern Thanalan", achievement.Name);
-                        Assert.AreEqual(new DateTime(2021, 07, 31, 12, 09, 17),
-                                        achievement.TimeAchieved);
+                        Assert.That(achievement.Name, Is.EqualTo("Mapping the Realm: Southern Thanalan"));
+                        Assert.That(achievement.TimeAchieved,
+                                        Is.EqualTo(new DateTime(2021, 07, 31, 12, 09, 17)));
                         found655 = true;
                         break;
                     case 3303:
-                        Assert.AreEqual("Reforged: Majestic Manderville Wings", achievement.Name);
-                        Assert.AreEqual(new DateTime(2024, 01, 24, 18, 35, 19),
-                                        achievement.TimeAchieved);
+                        Assert.That(achievement.Name, Is.EqualTo("Reforged: Majestic Manderville Wings"));
+                        Assert.That(achievement.TimeAchieved,
+                                        Is.EqualTo(new DateTime(2024, 01, 24, 18, 35, 19)));
                         found3303 = true;
                         break;
                     case 1750:
@@ -526,51 +618,59 @@ public class Tests
             }
             achieve = await achieve.GetNextPage();
         }
-        Assert.IsTrue(found655);
-        Assert.IsTrue(found3303);
-        Assert.IsFalse(found1750);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(found655);
+            Assert.That(found3303);
+            Assert.That(!found1750);
+        });
+        
         var mount = await chara.GetMounts();
-        Assert.NotNull(mount);
+        Assert.That(mount, Is.Not.Null);
         foreach (var m in mount.Collectables)
         {
-            Assert.NotNull(m.Name);
+            Assert.That(m.Name, Is.Not.Null);
         }
 
         var minion = await chara.GetMinions();
-        Assert.NotNull(minion);
+        Assert.That(minion, Is.Not.Null);
         foreach (var m in minion.Collectables)
         {
-            Assert.NotNull(m.Name);
+            Assert.That(m.Name, Is.Not.Null);
         }
-        
     }
 
     [Test]
     public async Task CheckCharacterPrivateAchievements()
     {
         var chara = await this.lodestone.GetCharacterAchievement("11166211");
-        Assert.NotNull(chara);
-        Assert.False(chara.HasResults);
+        Assert.That(chara, Is.Not.Null);
+        Assert.That(!chara.HasResults);
     }
 
     [Test]
     public async Task CheckCharacterCollectableNotFound()
     {
         var mounts = await this.lodestone.GetCharacterMount("0");
-        Assert.IsNull(mounts);
+        Assert.That(mounts, Is.Null);
 
         var minions = await this.lodestone.GetCharacterMinion("0");
-        Assert.IsNull(minions);
+        Assert.That(minions, Is.Null);
     }
 
     [Test]
     public async Task CheckCrossworldLinkShell()
     {
         var cwls = await this.lodestone.GetCrossworldLinkshell(TestCWLS);
-        Assert.IsNotNull(cwls);
-        Assert.AreEqual("COR and Friends", cwls.Name);
-        Assert.AreEqual("Light", cwls.DataCenter);
-        Assert.AreEqual(2, cwls.NumPages);
+        Assert.That(cwls, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(cwls.Name, Is.EqualTo("COR and Friends"));
+            Assert.That(cwls.DataCenter, Is.EqualTo("Light"));
+            Assert.That(cwls.NumPages, Is.EqualTo(2));
+        });
+
         while (cwls is not null)
         {
             foreach (var member in cwls.Members)
@@ -594,7 +694,7 @@ public class Tests
             Name = "abcedfas",
         };
         var emptyResult = await this.lodestone.SearchCrossworldLinkshell(emptyQuery);
-        Assert.IsNotNull(emptyResult);
+        Assert.That(emptyResult, Is.Not.Null);
         //Assert.False(emptyResult.HasResults);
         var query = new CrossworldLinkshellSearchQuery()
         {
@@ -605,9 +705,9 @@ public class Tests
         };
         bool first = true;
         var results = await this.lodestone.SearchCrossworldLinkshell(query);
-        Assert.IsNotNull(results);
-        Assert.True(results.HasResults);
-        Assert.AreEqual(2, results.NumPages);
+        Assert.That(results, Is.Not.Null);
+        Assert.That(results.HasResults);
+        Assert.That(results.NumPages, Is.EqualTo(2));
         while (results is not null)
         {
             foreach (var result in results.Results)
@@ -616,8 +716,8 @@ public class Tests
                 {
                     first = false;
                     var shell = await result.GetCrossworldLinkshell();
-                    Assert.IsNotNull(shell);
-                    Assert.AreEqual(result.Name, shell.Name);
+                    Assert.That(shell, Is.Not.Null);
+                    Assert.That(shell.Name, Is.EqualTo(result.Name));
                 }
                 Console.WriteLine($"{result.Name} ({result.Id}): {result.ActiveMembers}\n");
             }
@@ -629,9 +729,9 @@ public class Tests
     public async Task CheckLinkshell()
     {
         var ls = await this.lodestone.GetLinkshell(TestLinkshell);
-        Assert.IsNotNull(ls);
-        Assert.AreEqual("CORshell", ls.Name);
-        Assert.AreEqual(2, ls.NumPages);
+        Assert.That(ls, Is.Not.Null);
+        Assert.That(ls.Name, Is.EqualTo("CORshell"));
+        Assert.That(ls.NumPages, Is.EqualTo(2));
         while (ls is not null)
         {
             foreach (var member in ls.Members)
@@ -646,7 +746,6 @@ public class Tests
             }
             ls = await ls.GetNextPage();
         }
-        
     }
     
     [Test]
@@ -657,8 +756,8 @@ public class Tests
             Name = "abcedfas",
         };
         var emptyResult = await this.lodestone.SearchLinkshell(emptyQuery);
-        Assert.IsNotNull(emptyResult);
-        Assert.False(emptyResult.HasResults);
+        Assert.That(emptyResult, Is.Not.Null);
+        Assert.That(!emptyResult.HasResults);
         var query = new LinkshellSearchQuery()
         {
             Name = "Hell",
@@ -667,9 +766,9 @@ public class Tests
         };
         bool first = true;
         var results = await this.lodestone.SearchLinkshell(query);
-        Assert.IsNotNull(results);
-        Assert.True(results.HasResults);
-        Assert.AreEqual(2, results.NumPages);
+        Assert.That(results, Is.Not.Null);
+        Assert.That(results.HasResults);
+        Assert.That(results.NumPages, Is.EqualTo(2));
         while (results is not null)
         {
             foreach (var result in results.Results)
@@ -678,8 +777,8 @@ public class Tests
                 {
                     first = false;
                     var shell = await result.GetLinkshell();
-                    Assert.IsNotNull(shell);
-                    Assert.AreEqual(result.Name, shell.Name);
+                    Assert.That(shell, Is.Not.Null);
+                    Assert.That(shell.Name, Is.EqualTo(result.Name));
                 }
                 Console.WriteLine($"{result.Name} ({result.Id}): {result.ActiveMembers}\n");
             }
@@ -692,9 +791,9 @@ public class Tests
             HomeWorld = "Spriggan",
         };
         results = await this.lodestone.SearchLinkshell(query);
-        Assert.IsNotNull(results);
-        Assert.True(results.HasResults);
-        Assert.AreEqual(1, results.NumPages);
+        Assert.That(results, Is.Not.Null);
+        Assert.That(results.HasResults);
+        Assert.That(results.NumPages, Is.EqualTo(1));
         while (results is not null)
         {
             foreach (var result in results.Results)
