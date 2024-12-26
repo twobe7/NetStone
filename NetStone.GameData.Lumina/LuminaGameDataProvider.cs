@@ -3,7 +3,7 @@ using System.IO;
 using Lumina;
 using Lumina.Data;
 using Lumina.Excel;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Cyalume = Lumina.GameData;
 
 namespace NetStone.GameData.Lumina;
@@ -37,28 +37,28 @@ public class LuminaGameDataProvider : IGameDataProvider
         if (item == null)
             return null;
 
-        var langs = CollectLanguages<Item>(item.RowId);
+        var (En, De, Fr, Ja) = CollectLanguages<Item>(item.Value.RowId);
 
         return new NamedGameData
         {
             Info = new GameDataInfo
             {
-                Key = item.RowId,
+                Key = item.Value.RowId,
                 Name = name,
             },
 
             Name = new LanguageStrings
             {
-                En = langs.En.Name,
-                De = langs.De.Name,
-                Fr = langs.Fr.Name,
-                Ja = langs.Ja.Name,
+                En = En.Name.ExtractText(),
+                De = De.Name.ExtractText(),
+                Fr = Fr.Name.ExtractText(),
+                Ja = Ja.Name.ExtractText(),
             },
         };
     }
 
-    private (T En, T De, T Fr, T Ja) CollectLanguages<T>(uint key) where T : ExcelRow
-    {
+    private (T En, T De, T Fr, T Ja) CollectLanguages<T>(uint key) where T : struct, IExcelRow<T>
+	{
         var en = this.lumina.Excel.GetSheet<T>(Language.English);
         var de = this.lumina.Excel.GetSheet<T>(Language.English);
         var fr = this.lumina.Excel.GetSheet<T>(Language.English);
@@ -67,8 +67,8 @@ public class LuminaGameDataProvider : IGameDataProvider
         return (en!.GetRow(key)!, de!.GetRow(key)!, fr!.GetRow(key)!, ja!.GetRow(key)!);
     }
 
-    private T? FindRow<T>(string name) where T: ExcelRow
-    {
+    private T? FindRow<T>(string name) where T : struct, IExcelRow<T>
+	{
         var en = this.lumina.Excel.GetSheet<T>(Language.English);
         var de = this.lumina.Excel.GetSheet<T>(Language.English);
         var fr = this.lumina.Excel.GetSheet<T>(Language.English);
@@ -90,8 +90,8 @@ public class LuminaGameDataProvider : IGameDataProvider
         return res;
     }
 
-    private static T? FindRowInSheet<T>(ExcelSheet<T>? sheet, string name) where T: ExcelRow
-    {
+    private static T? FindRowInSheet<T>(ExcelSheet<T>? sheet, string name) where T : struct, IExcelRow<T>
+	{
         if (sheet == null)
             return null;
 
