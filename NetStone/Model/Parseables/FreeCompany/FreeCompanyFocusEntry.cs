@@ -1,5 +1,5 @@
 ﻿using System;
-using HtmlAgilityPack;
+using AngleSharp.Dom;
 using NetStone.Definitions.Model.FreeCompany;
 
 namespace NetStone.Model.Parseables.FreeCompany;
@@ -16,7 +16,7 @@ public class FreeCompanyFocusEntry : LodestoneParseable
     /// </summary>
     /// <param name="rootNode">Node that contains relevant data</param>
     /// <param name="definition">Parse definition</param>
-    public FreeCompanyFocusEntry(HtmlNode rootNode, FreeCompanyFocusEntryDefinition definition) : base(rootNode)
+    public FreeCompanyFocusEntry(IElement rootNode, FreeCompanyFocusEntryDefinition definition) : base(rootNode)
     {
         this.definition = definition;
     }
@@ -24,15 +24,15 @@ public class FreeCompanyFocusEntry : LodestoneParseable
     /// <summary>
     /// Name of the focus type
     /// </summary>
-    public string Name => Parse(this.definition.NAME);
+    public string Name => Parse(this.definition.Name);
 
     /// <summary>
     /// Uri to icon
     /// </summary>
-    public Uri? Icon => ParseImageSource(this.definition.ICON);
+    public Uri? Icon => ParseImageSource(this.definition.Icon);
 
     /// <summary>
     /// Indicates this focus is selected
     /// </summary>
-    public bool IsEnabled => string.IsNullOrEmpty(Parse(this.definition.STATUS));
+    public bool IsEnabled => string.IsNullOrEmpty(Parse(this.definition.Status));
 }

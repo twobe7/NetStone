@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using HtmlAgilityPack;
+using AngleSharp.Dom;
 using NetStone.Definitions.Model.Character;
 
 namespace NetStone.Model.Parseables.Character.ClassJob;
@@ -16,7 +16,7 @@ public class ClassJobEntry : LodestoneParseable, IOptionalParseable<ClassJobEntr
     /// </summary>
     /// <param name="rootNode">Root node of this entry</param>
     /// <param name="definition">Parser definition</param>
-    public ClassJobEntry(HtmlNode rootNode, ClassJobEntryDefinition definition) : base(rootNode)
+    public ClassJobEntry(IElement rootNode, ClassJobEntryDefinition definition) : base(rootNode)
     {
         this.definition = definition;
     }
@@ -43,7 +43,7 @@ public class ClassJobEntry : LodestoneParseable, IOptionalParseable<ClassJobEntr
         }
     }
 
-    private string ExpString => ParseInnerText(this.definition.Exp);
+    private string _expString => ParseInnerText(this.definition.Exp);
 
     private long? expCurrentVal;
 
@@ -92,7 +92,7 @@ public class ClassJobEntry : LodestoneParseable, IOptionalParseable<ClassJobEntr
             return;
         }
 
-        var expVals = this.ExpString.Split(" / ").Select(x => x.Replace(",", string.Empty)).ToArray();
+        var expVals = this._expString.Split(" / ").Select(x => x.Replace(",", string.Empty)).ToArray();
 
         if (expVals[0] == "--")
         {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HtmlAgilityPack;
+using AngleSharp.Dom;
 using NetStone.Definitions.Model.Character;
 
 namespace NetStone.Model.Parseables.Character.ClassJob;
@@ -16,7 +16,7 @@ public class CharacterClassJob : LodestoneParseable
     /// </summary>
     /// <param name="rootNode">Root html node of Lodestone page</param>
     /// <param name="definition">Definition to parse ClassJobs</param>
-    public CharacterClassJob(HtmlNode rootNode, CharacterClassJobDefinition definition) : base(rootNode)
+    public CharacterClassJob(IElement rootNode, CharacterClassJobDefinition definition) : base(rootNode)
     {
         this.definition = definition;
     }
@@ -80,6 +80,11 @@ public class CharacterClassJob : LodestoneParseable
     /// Information about the Viper class.
     /// </summary>
     public ClassJobEntry Viper => new(this.RootNode, this.definition.Viper);
+
+    /// <summary>
+    /// Information about the Beastmaster class.
+    /// </summary>
+    public ClassJobEntry Beastmaster => new(this.RootNode, this.definition.Beastmaster);
 
     /// <summary>
     /// Information about the WhiteMage class.
@@ -226,6 +231,8 @@ public class CharacterClassJob : LodestoneParseable
             { StaticData.ClassJob.Reaper, this.Reaper },
 
             { StaticData.ClassJob.Viper, this.Viper },
+
+            { StaticData.ClassJob.Beastmaster, this.Beastmaster },
 
             { StaticData.ClassJob.Conjurer, this.WhiteMage },
             { StaticData.ClassJob.WhiteMage, this.WhiteMage },

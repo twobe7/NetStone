@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NetStone.Definitions.Model;
 using NetStone.Definitions.Model.Character;
@@ -35,46 +36,56 @@ public abstract class DefinitionsContainer : IDisposable
     /// Gear definitions for character
     /// </summary>
     public CharacterGearDefinition Gear { get; protected set; }
+    
+    /// <summary>
+    /// Definition for character gear entry (single slot)
+    /// </summary>
+    public GearEntryDefinition GearEntry { get; protected set; }
+    
+    /// <summary>
+    /// Definition for character soul crystal entry
+    /// </summary>
+    public SoulcrystalEntryDefinition SoulCrystalEntry { get; protected set; }
 
     /// <summary>
     /// Definitions for a character's attribute
     /// </summary>
-    public CharacterAttributesDefinition Attributes { get; set; }
+    public CharacterAttributesDefinition Attributes { get; protected set; }
 
     /// <summary>
     /// Definitions for a character's achievements
     /// </summary>
-    public CharacterAchievementDefinition Achievement { get; set; }
+    public CharacterAchievementDefinition Achievement { get; protected set; }
 
     /// <summary>
     /// Definitions for a character's mounts
     /// </summary>
-    public CharacterCollectableDefinition Mount { get; set; }
+    public CharacterCollectableDefinition Mount { get; protected set; }
 
     /// <summary>
     /// Definitions for a character's minions
     /// </summary>
-    public CharacterCollectableDefinition Minion { get; set; }
+    public CharacterCollectableDefinition Minion { get; protected set; }
 
     /// <summary>
     /// Definitions for Free Company
     /// </summary>
-    public FreeCompanyDefinition FreeCompany { get; set; }
+    public FreeCompanyDefinition FreeCompany { get; protected set; }
 
     /// <summary>
     /// Definitions for Free Company focus
     /// </summary>
-    public FreeCompanyFocusDefinition FreeCompanyFocus { get; set; }
+    public FreeCompanyFocusDefinition FreeCompanyFocus { get; protected set; }
 
     /// <summary>
     /// Definitions for Free Company reputation
     /// </summary>
-    public FreeCompanyReputationDefinition FreeCompanyReputation { get; set; }
+    public FreeCompanyReputationDefinition FreeCompanyReputation { get; protected set; }
 
     /// <summary>
     /// Definitions for Free Company member list
     /// </summary>
-    public PagedDefinition<FreeCompanyMembersEntryDefinition> FreeCompanyMembers { get; set; }
+    public PagedDefinition<FreeCompanyMembersEntryDefinition> FreeCompanyMembers { get; protected set; }
 
     /// <summary>
     /// Definitions for character search
@@ -121,8 +132,9 @@ public abstract class DefinitionsContainer : IDisposable
     /// <summary>
     /// Loads the definitions from repo
     /// </summary>
+    /// <param name="cancellationToken">The cancellation token to cancel operation</param>
     /// <returns>Reload task</returns>
-    public abstract Task Reload();
+    public abstract Task Reload(CancellationToken cancellationToken = default);
 
     /// <inheritdoc />
     public abstract void Dispose();

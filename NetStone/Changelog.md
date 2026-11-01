@@ -1,3 +1,22 @@
+## 1.4.2
+### Fixes
+ - Fixed character gear for the new website structure
+## 1.4.1
+### Behavioral changes
+ - Exceptions from http requests are not caught and ignored anymore
+### Fixes
+ - Fixed FC search parameter for recruiting 
+### Contributors
+- Tawmy
+## 1.4.0
+### License
+- Switched to MIT license
+### New Features
+- Added
+  - LinkShells
+  - Linkshell search
+  - CWLS
+  - CWLS search
 ## 1.3.1
 ### Bugfixes
 - Free Company search
